@@ -1,0 +1,12 @@
+{
+  "validation": {
+    "email": {
+      "empty": "Email cannot be empty.",
+      "invalid": "Must be a valid email."
+    },
+    "password": {
+      "empty": "Password cannot be empty.",
+      "complexity": "Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, and one number."
+    }
+  }
+}

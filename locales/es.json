@@ -1,0 +1,12 @@
+{
+  "validation": {
+    "email": {
+      "empty": "El correo no puede estar vacío.",
+      "invalid": "El correo debe tener un formato válido(ejemplo: 3QqgK@example.com)."
+    },
+    "password": {
+      "empty": "La contraseña no puede estar vacía.",
+      "complexity": "La contraseña debe tener al menos 8 caracteres, incluyendo una letra minúscula, una letra mayúscula, un dígito y un carácter especial."
+    }
+  }
+}
