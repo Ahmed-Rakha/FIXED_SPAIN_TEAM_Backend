@@ -59,27 +59,36 @@ exports.createCase = async (req, res) => {
 
 exports.updateCase = async (req, res) => {
   try {
-    const caseGrande = await UserCaseGrande.findOne(req.params);
+    const cases = await UserCaseGrande.find(req.params);
 
-    if (!caseGrande) {
+    if (!cases || cases.length === 0) {
       return res.status(404).json({
         status: "fail",
-        message: "No case found",
+        message: "No cases found",
       });
     }
-    const previousStatus = caseGrande.status;
-    const modificationDate = new Date().toISOString().split("T")[0];
-    caseGrande.previousStatus = previousStatus;
-    caseGrande.status = req.body.status;
-    caseGrande.lastModified = modificationDate;
 
-    await caseGrande.save({ validateBeforeSave: false });
-    console.log("caseGrande", caseGrande);
+    // Loop through each case and update
+    const modificationDate = new Date().toISOString().split("T")[0];
+    const updatedCases = [];
+
+    for (let caseGrande of cases) {
+      const previousStatus = caseGrande.status;
+      caseGrande.previousStatus = previousStatus;
+      caseGrande.status = req.body.status;
+      caseGrande.lastModified = modificationDate;
+
+      // Save each case
+      await caseGrande.save({ validateBeforeSave: false });
+      updatedCases.push(caseGrande);
+    }
+
+    console.log("Updated cases:", updatedCases);
 
     res.status(200).json({
       status: "success",
       data: {
-        caseGrande,
+        updatedCases,
       },
     });
   } catch (err) {
@@ -91,6 +100,41 @@ exports.updateCase = async (req, res) => {
     });
   }
 };
+
+// exports.updateCase = async (req, res) => {
+//   try {
+//     const caseGrande = await UserCaseGrande.findOne(req.params);
+
+//     if (!caseGrande) {
+//       return res.status(404).json({
+//         status: "fail",
+//         message: "No case found",
+//       });
+//     }
+//     const previousStatus = caseGrande.status;
+//     const modificationDate = new Date().toISOString().split("T")[0];
+//     caseGrande.previousStatus = previousStatus;
+//     caseGrande.status = req.body.status;
+//     caseGrande.lastModified = modificationDate;
+
+//     await caseGrande.save({ validateBeforeSave: false });
+//     console.log("caseGrande", caseGrande);
+
+//     res.status(200).json({
+//       status: "success",
+//       data: {
+//         caseGrande,
+//       },
+//     });
+//   } catch (err) {
+//     console.log(err);
+
+//     res.status(400).json({
+//       status: "fail",
+//       message: "Invalid data sent!",
+//     });
+//   }
+// };
 
 exports.deleteCase = async (req, res) => {
   try {
