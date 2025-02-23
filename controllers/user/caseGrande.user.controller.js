@@ -57,54 +57,54 @@ exports.createCase = async (req, res) => {
   }
 };
 
+// exports.updateCase = async (req, res) => {
+//   try {
+//     // Find all cases (for example, cases with a specific status or criteria)
+//     const cases = await UserCaseGrande.find(req.query); // Adjust the filter as needed
+
+//     if (!cases || cases.length === 0) {
+//       return res.status(404).json({
+//         status: "fail",
+//         message: "No cases found",
+//       });
+//     }
+
+//     // Loop through each case and update
+//     const modificationDate = new Date().toISOString().split("T")[0];
+//     const updatedCases = [];
+
+//     for (let caseGrande of cases) {
+//       const previousStatus = caseGrande.status;
+//       caseGrande.previousStatus = previousStatus;
+//       caseGrande.status = req.body.status;
+//       caseGrande.lastModified = modificationDate;
+
+//       // Save each case
+//       await caseGrande.save({ validateBeforeSave: false });
+//       updatedCases.push(caseGrande); // Store the updated cases for the response
+//     }
+
+//     console.log("Updated cases:", updatedCases);
+
+//     res.status(200).json({
+//       status: "success",
+//       data: {
+//         updatedCases,
+//       },
+//     });
+//   } catch (err) {
+//     console.log(err);
+
+//     res.status(400).json({
+//       status: "fail",
+//       message: "Invalid data sent!",
+//     });
+//   }
+// };
+
 exports.updateCase = async (req, res) => {
   try {
-    // Find all cases (for example, cases with a specific status or criteria)
-    const cases = await UserCaseGrande.find(req.body.filter); // Adjust the filter as needed
-
-    if (!cases || cases.length === 0) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No cases found",
-      });
-    }
-
-    // Loop through each case and update
-    const modificationDate = new Date().toISOString().split("T")[0];
-    const updatedCases = [];
-
-    for (let caseGrande of cases) {
-      const previousStatus = caseGrande.status;
-      caseGrande.previousStatus = previousStatus;
-      caseGrande.status = req.body.status;
-      caseGrande.lastModified = modificationDate;
-
-      // Save each case
-      await caseGrande.save({ validateBeforeSave: false });
-      updatedCases.push(caseGrande); // Store the updated cases for the response
-    }
-
-    console.log("Updated cases:", updatedCases);
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        updatedCases,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-
-    res.status(400).json({
-      status: "fail",
-      message: "Invalid data sent!",
-    });
-  }
-};
-
-exports.updateCase = async (req, res) => {
-  try {
-    const caseGrande = await UserCaseGrande.findOne(req.params);
+    const caseGrande = await UserCaseGrande.findOne(req.query);
 
     if (!caseGrande) {
       return res.status(404).json({
